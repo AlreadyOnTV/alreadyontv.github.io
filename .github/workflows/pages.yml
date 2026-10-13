@@ -1,0 +1,38 @@
+# Build the public product-site source without promoting application release branches.
+name: Publish AlreadyOn product website
+on:
+  workflow_dispatch:
+    inputs:
+      source_ref:
+        description: Tested AlreadyOn source commit or branch
+        required: true
+        default: '2026-10-18'
+        type: string
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-26.04
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          repository: AlreadyOnApp/AlreadyOn
+          ref: ${{ inputs.source_ref }}
+          persist-credentials: false
+      - name: Build and validate product website
+        run: python3 scripts/build-website.py
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+  deploy:
+    needs: build
+    runs-on: ubuntu-26.04
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment
