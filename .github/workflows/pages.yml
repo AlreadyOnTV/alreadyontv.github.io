@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
-          repository: AlreadyOnApp/AlreadyOn
+          repository: AlreadyOnTV/AlreadyOn
           ref: ${{ inputs.source_ref }}
           persist-credentials: false
       - name: Build and validate product website
