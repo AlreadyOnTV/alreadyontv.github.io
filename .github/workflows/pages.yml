@@ -6,7 +6,7 @@ on:
       source_ref:
         description: Tested AlreadyOn source commit or branch
         required: true
-        default: '2026-10-18'
+        default: '26-10-18'
         type: string
 permissions:
   contents: read
